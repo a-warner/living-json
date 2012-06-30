@@ -1,7 +1,8 @@
 source :rubygems
 
-gem 'rspec'
+gem 'json'
 
 group :test do
   gem 'rspec'
+  gem 'pry'
 end
