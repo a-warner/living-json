@@ -1,0 +1,2 @@
+class LivingJson
+end
