@@ -3,6 +3,7 @@ require_relative 'spec_helper.rb'
 
 describe LivingJson do
   let(:json) { LivingJson.from(input) }
+  let(:input) { '{ "baz" : "bing" }' }
 
   subject { json }
 
@@ -33,5 +34,32 @@ describe LivingJson do
       json.foo = "baz"
     end
     its(:foo) { should == "baz" }
+  end
+
+  context "json with array" do
+    let(:input) { '{ "foo" : [2,2,1,5] }' }
+    its(:foo) { should == [2,2,1,5] }
+  end
+
+  context "get non-existing property" do
+    its(:foo) { should be_nil }
+  end
+
+  context "setting a non-existing property" do
+    before do
+      json.foo = "bar"
+    end
+    its(:foo) { should == "bar" }
+  end
+
+  context "iterable" do
+    let(:input) { '{ "foo" : "bar", "bar": "baz" }' }
+    it { should include("foo") }
+    it { should include("bar") }
+    it 'should be iterable' do
+      json.each do |k, v|
+        [k, v]
+      end
+    end
   end
 end

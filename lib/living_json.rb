@@ -11,7 +11,9 @@ class LivingJson
   end
 
   def method_missing(method, *args, &block)
-    if !self.class.method_defined?(method)
+    if @underlying.respond_to?(method)
+      @underlying.send(method, *args, &block)
+    elsif !self.class.method_defined?(method)
       property = method.to_s.end_with?('=') ? method.to_s.gsub(/=$/,'') : method.to_s
       self.class.instance_eval do
         define_method property do 
