@@ -62,4 +62,10 @@ describe LivingJson do
       end
     end
   end
+
+  context 'allows nested subobjects' do
+    let(:input) { '{ "foo": "bar", "col": { "bar": "baz" } }' }
+    subject { json.col }
+    its(:bar) { should == "baz" }
+  end
 end

@@ -17,7 +17,7 @@ class LivingJson
       property = method.to_s.end_with?('=') ? method.to_s.gsub(/=$/,'') : method.to_s
       self.class.instance_eval do
         define_method property do 
-          @underlying[property]
+          @underlying[property].is_a?(Hash) ? LivingJson.from(@underlying[property]) : @underlying[property]
         end
         define_method "#{property}=" do |new_value|
           @underlying[property] = new_value
