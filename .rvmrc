@@ -1,0 +1,1 @@
+rvm use --create "$(cat "$PWD/.rbenv-version")@living-json"
