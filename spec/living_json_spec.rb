@@ -3,7 +3,8 @@ require_relative 'spec_helper.rb'
 
 describe LivingJson do
   let(:json) { LivingJson.from(input) }
-  let(:input) { '{ "baz" : "bing" }' }
+  let(:input_with_one_prop) { {'foo' => 'bar'} }
+  let(:input) { input_with_one_prop  }
 
   subject { json }
 
@@ -18,54 +19,48 @@ describe LivingJson do
   end
 
   context "json with one property" do
-    let(:input) { '{ "foo" : "bar" }' }
     its(:foo) { should == "bar" }
   end
 
   context "json with two properties" do
-    let(:input) { '{ "foo": "bar", "jimmy" : "jones" }'}
+    before { input['jimmy'] = 'jones' }
     its(:foo) { should == "bar" }
     its(:jimmy) { should == "jones" }
   end
 
   context "changing property" do
-    let(:input) { '{ "foo" : "bar" }' }
-    before do
-      json.foo = "baz"
-    end
+    before { json.foo = "baz" }
     its(:foo) { should == "baz" }
   end
 
   context "json with array" do
-    let(:input) { '{ "foo" : [2,2,1,5] }' }
+    let(:input) { { "foo" => [2,2,1,5] } }
     its(:foo) { should == [2,2,1,5] }
   end
 
   context "get non-existing property" do
-    its(:foo) { should be_nil }
+    its(:baz) { should be_nil }
   end
 
   context "setting a non-existing property" do
-    before do
-      json.foo = "bar"
-    end
-    its(:foo) { should == "bar" }
+    before { json.new_prop = "bar" }
+    its(:new_prop) { should == "bar" }
   end
 
   context "iterable" do
-    let(:input) { '{ "foo" : "bar", "bar": "baz" }' }
+    let(:input) { { "foo" => "bar", "bar" => "baz" } }
     it { should include("foo") }
     it { should include("bar") }
-    it 'should be iterable' do
-      json.each do |k, v|
-        [k, v]
-      end
-    end
   end
 
   context 'allows nested subobjects' do
-    let(:input) { '{ "foo": "bar", "col": { "bar": "baz" } }' }
+    before { input['col'] = { "bar" => "baz" } }
     subject { json.col }
     its(:bar) { should == "baz" }
+  end
+
+  context 'parses json if input is a string' do
+    let(:input) { '{"hello" : "world"}' }
+    its(:hello) { should == "world" }
   end
 end
