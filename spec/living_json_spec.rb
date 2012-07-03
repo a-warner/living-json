@@ -63,4 +63,12 @@ describe LivingJson do
     let(:input) { '{"hello" : "world"}' }
     its(:hello) { should == "world" }
   end
+
+  context 'multiple json entities' do
+    let(:other_json) { LivingJson.from "foo" => "not bar" }
+    before do
+      other_json.foo
+    end
+    its(:foo) { should == "bar" }
+  end
 end
