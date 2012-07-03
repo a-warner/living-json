@@ -13,7 +13,7 @@ class LivingJson
   def method_missing(method, *args, &block)
     if @underlying.respond_to?(method)
       @underlying.send(method, *args, &block)
-    elsif !self.class.method_defined?(method)
+    else 
       property = method.to_s.end_with?('=') ? method.to_s.gsub(/=$/,'') : method.to_s
       self.class.instance_eval do
         define_method property do 
@@ -24,8 +24,6 @@ class LivingJson
         end
       end
       send(method, *args, &block)
-    else
-      super
     end
   end
 end
