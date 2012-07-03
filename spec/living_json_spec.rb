@@ -80,4 +80,14 @@ describe LivingJson do
       it { should be_true }
     end
   end
+
+  context 'returns json' do
+    let(:json) { LivingJson.new }
+    before do
+      json.hello = "world"
+      json.jimmy = "jones"
+    end
+    subject { json.to_json }
+    it { should == '{"hello":"world","jimmy":"jones"}' }
+  end
 end

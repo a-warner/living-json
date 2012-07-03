@@ -2,7 +2,7 @@ require 'json'
 
 class LivingJson
   
-  def initialize(collection)
+  def initialize(collection={})
     @underlying = collection
   end
 
@@ -30,5 +30,9 @@ class LivingJson
   # right now someone could assign or fetch any property, so it responds to every method call
   def respond_to?(method)
     true
+  end
+
+  def to_json(*args)
+    @underlying.to_json(*args)
   end
 end
