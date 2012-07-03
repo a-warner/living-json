@@ -35,4 +35,8 @@ class LivingJson
   def to_json(*args)
     @underlying.to_json(*args)
   end
+
+  def to_s
+    to_json
+  end
 end

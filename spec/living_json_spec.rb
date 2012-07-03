@@ -89,5 +89,6 @@ describe LivingJson do
     end
     subject { json.to_json }
     it { should == '{"hello":"world","jimmy":"jones"}' }
+    its(:to_s) { should == json.to_json }
   end
 end
