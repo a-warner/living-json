@@ -26,4 +26,9 @@ class LivingJson
       send(method, *args, &block)
     end
   end
+
+  # right now someone could assign or fetch any property, so it responds to every method call
+  def respond_to?(method)
+    true
+  end
 end

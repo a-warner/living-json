@@ -71,4 +71,13 @@ describe LivingJson do
     end
     its(:foo) { should == "bar" }
   end
+
+  context "#respond_to" do
+    subject { json.respond_to?(:foo) }
+    it { should be_true }
+    context 'property that doesn\'t exist' do
+      subject { json.respond_to?(:doesnt_exist) }
+      it { should be_true }
+    end
+  end
 end
